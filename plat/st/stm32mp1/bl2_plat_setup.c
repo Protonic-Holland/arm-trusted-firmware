@@ -334,9 +334,9 @@ skip_console_init:
 	stm32mp1_auth_ops.verify_signature =
 		boot_context->bootrom_ecdsa_verify_signature;
 
-	stm32mp_init_auth(&stm32mp1_auth_ops);
+	//stm32mp_init_auth(&stm32mp1_auth_ops);
 
-	stm32mp1_arch_security_setup();
+	//stm32mp1_arch_security_setup();
 
 	print_reset_reason();
 
