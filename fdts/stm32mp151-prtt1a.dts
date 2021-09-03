@@ -21,6 +21,7 @@
 
 	aliases {
 		mmc0 = &sdmmc1;
+		mmc1 = &sdmmc2;
 		serial0 = &uart4;
 	};
 
@@ -154,6 +155,18 @@
 	status = "okay";
 };
 
+/* NOTE: Although the PRTT1A does not have an eMMC, we declare it
+ * anyway, in order to be able to use the same binary for the
+ * PRTT1C also. All involved pins are N.C. on PRTT1A/S for that
+ * reason, so it should do no harm. All inputs configured with
+ * pull-ups to avoid floating inputs. */
+&sdmmc2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&sdmmc2_b4_pins_a &sdmmc2_d47_pins_a>;
+	bus-width = <8>;
+	status = "okay";
+};
+
 &sdmmc1_b4_pins_a {
 	pins1 {
 		bias-pull-up;
@@ -205,5 +218,24 @@
 		bias-pull-up;
 		drive-push-pull;
 		slew-rate = <1>;
+	};
+};
+
+&sdmmc2_b4_pins_a {
+	pins1 {
+		pinmux = <STM32_PINMUX('B', 14, AF9)>, /* SDMMC2_D0 */
+			 <STM32_PINMUX('B', 7, AF10)>, /* SDMMC2_D1 */
+			 <STM32_PINMUX('B', 3, AF9)>, /* SDMMC2_D2 */
+			 <STM32_PINMUX('B', 4, AF9)>, /* SDMMC2_D3 */
+			 <STM32_PINMUX('G', 6, AF10)>; /* SDMMC2_CMD */
+	};
+};
+
+&sdmmc2_d47_pins_a {
+	pins {
+		pinmux = <STM32_PINMUX('A', 8, AF9)>, /* SDMMC2_D4 */
+			 <STM32_PINMUX('A', 9, AF10)>, /* SDMMC2_D5 */
+			 <STM32_PINMUX('C', 6, AF10)>, /* SDMMC2_D6 */
+			 <STM32_PINMUX('C', 7, AF10)>; /* SDMMC2_D7 */
 	};
 };
