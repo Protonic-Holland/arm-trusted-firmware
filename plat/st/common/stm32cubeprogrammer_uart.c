@@ -32,6 +32,7 @@
 #define READ_PART_COMMAND	0x12U
 #define START_COMMAND		0x21U
 #define DOWNLOAD_COMMAND	0x31U
+#define DOWNLOAD_COMMAND2	0x32U
 
 /* Answer defines */
 #define INIT_BYTE		0x7FU
@@ -48,7 +49,8 @@ static const uint8_t command_tab[] = {
 	GET_ID_COMMAND,
 	PHASE_COMMAND,
 	START_COMMAND,
-	DOWNLOAD_COMMAND
+	DOWNLOAD_COMMAND,
+	DOWNLOAD_COMMAND2
 };
 
 /* STM32CubeProgrammer over UART handle */
@@ -260,7 +262,7 @@ static int uart_send_phase(uint32_t address)
 	return ret;
 }
 
-static int uart_download_part(void)
+static int uart_download_part(int llen)
 {
 	uint8_t operation = 0U;
 	uint8_t xor;
@@ -316,7 +318,15 @@ static int uart_download_part(void)
 		return ret;
 	}
 	xor = byte;
-	packet_size = byte + 1U;
+	if (llen == 2) {
+		packet_size = byte << 8;
+		ret = uart_read_8(&byte);
+		if (ret != 0) {
+			return ret;
+		}
+		xor ^= byte;
+	}
+	packet_size += byte + 1U;
 	if (handle.len < packet_size) {
 		STM32PROG_ERROR("Download overflow at %p\n", handle.addr + packet_size);
 		return 0;
@@ -454,7 +464,11 @@ static int uart_read(uint8_t id, uintptr_t buffer, size_t length)
 			break;
 
 		case DOWNLOAD_COMMAND:
-			ret = uart_download_part();
+			ret = uart_download_part(1);
+			break;
+
+		case DOWNLOAD_COMMAND2:
+			ret = uart_download_part(2);
 			break;
 
 		case START_COMMAND:
