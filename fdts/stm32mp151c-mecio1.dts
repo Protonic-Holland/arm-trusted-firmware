@@ -46,6 +46,10 @@
 	};
 };
 
+&clk_lse {
+	status = "disabled";
+};
+
 &iwdg2 {
 	timeout-sec = <32>;
 	status = "okay";
