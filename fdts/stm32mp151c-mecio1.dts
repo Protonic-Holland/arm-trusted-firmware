@@ -92,7 +92,7 @@
 		CLK_PLL4_HSE
 		CLK_RTC_LSI
 		CLK_MCO1_DISABLED
-		CLK_MCO2_DISABLED
+		CLK_MCO2_HSE
 	>;
 
 	st,clkdiv = <
@@ -106,7 +106,7 @@
 		2 /*APB5*/
 		23 /*RTC*/
 		0 /*MCO1*/
-		0 /*MCO2*/
+		3 /*MCO2*/ /* 6.250MHz output for ADS131M02 */
 	>;
 
 	st,pkcs = <
