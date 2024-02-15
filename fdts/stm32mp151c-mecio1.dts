@@ -7,7 +7,7 @@
 
 #include "stm32mp151.dtsi"
 #include "stm32mp15-pinctrl.dtsi"
-#include "stm32mp15xxad-pinctrl.dtsi"
+#include "stm32mp15xxaa-pinctrl.dtsi"
 #include <dt-bindings/clock/stm32mp1-clksrc.h>
 #include "stm32mp15-ddr3-1x2Gb-1066-binG.dtsi"
 
@@ -230,4 +230,8 @@
 
 &usbphyc_port1 {
 	phy-supply = <&v3v3>;
+};
+
+&gpioz {
+	status = "okay";
 };
