@@ -164,11 +164,11 @@
 		frac = <0x1eb9>;
 	};
 
-	/* VCO = 625 MHz => P = 208.3, Q = 125, R = 125 */
+	/* VCO = 750 MHz => P = 187.5, Q = 125, R = 125 */
 	pll3: st,pll@2 {
 		compatible = "st,stm32mp1-pll";
 		reg = <2>;
-		cfg = <1 49 2 4 4 PQR(1,1,1)>;
+		cfg = <1 59 3 5 5 PQR(1,1,1)>;
 		frac = <0x0000>;
 	};
 
